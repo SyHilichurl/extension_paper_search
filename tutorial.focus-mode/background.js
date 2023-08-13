@@ -39,20 +39,41 @@ chrome.action.onClicked.addListener(async (tab) => {
     if (nextState === "ON") {
       // Insert the CSS file when the user turns the extension on
       await chrome.scripting.insertCSS({
-        files: ["focus-mode.css"],
+        files: ["focus-mode.css", "search-bar-sticky.css"],
         target: { tabId: tab.id },
       });
 
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        files: ["add-info.js"],
+        files: ["libs/tailwindcss_3.3.3.js", "add-info.js"],
         // files: ["hide-history.js"],
       });
 
       chrome.runtime.onMessage.addListener((message) => {
-        if (message.selected_keyword) {
-          chrome.runtime.sendMessage({
-            selected_keyword: message.selected_keyword,
+        // user clicked on a keyword from the sidepanel
+        // this function should replace the current search input with the selected input
+        if (message.chosen_keyword) {
+          console.log("chosen_keyword", message.chosen_keyword);
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: (chosen_keyword) => {
+              // replace the current search input with the selected input
+              const searchInput = document.querySelector("input#query");
+              searchInput.value = chosen_keyword;
+              // scroll to search input
+              searchInput.scrollIntoView({ behavior: "smooth" });
+            },
+            args: [message.chosen_keyword],
+          });
+        }
+      });
+
+      chrome.runtime.onMessage.addListener((request, sendResponse) => {
+        if (request.action === "clearKeywords") {
+          // Clear the "selected_keywords" data from local storage
+          chrome.storage.local.remove("selected_keywords", () => {
+            console.log("Selected keywords cleared.");
+            sendResponse({ cleared: true });
           });
         }
       });

@@ -1,13 +1,47 @@
 <html>
   <head>
     <title>Dictionary Side Panel</title>
+    <script src="./libs/tailwindcss_3.3.3.js"></script>
+    <style>
+      #drop-area1 {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      border: 2px dashed #3490dc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      text-align: center;
+    }
+      #drop-area2 {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      border: 2px dashed #0ffe23;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      text-align: center;
+    }
+    </style>
   </head>
   <body>
-    <h1>Dictionary</h1>
-    <hr />
-    <div id="selected-keyword">
+    <div class="m-4">
+      <h1 class="text-zinc-500 text-3xl font-bold mb-2">
+        Keywords Collections
+      </h1>
+      <div id="selected-keyword" class="flex gap-4 flex-row"></div>
+      <div id="drop-area1">
+        Drop here to add a new class
+      </div>
+      <div id="drop-area2">
+        Drop here to add a new class
+      </div>
+      <button id="clearKeywordsButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Clear Keywords</button>
+      <button id="addClassButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Create your input text</button>
     </div>
-    <!-- <div id="drop-zone">move it</div> -->
     <script src="sidepanel.js"></script>
   </body>
 </html>

@@ -1,0 +1,22 @@
+ol.breathe-horizontal {
+    zoom: 1;
+}
+ol.breathe-horizontal li.arxiv-result {
+    float: left;
+    width: 70%;
+    padding: 5px;
+}
+
+ol.breathe-horizontal li.keywords-container {
+    float: left;
+    width: 30%;
+    padding: 5px
+}
+
+ol.breathe-horizontal li.keywords-container::marker {
+    content: none;
+}
+
+nav {
+    width: 50%;
+}

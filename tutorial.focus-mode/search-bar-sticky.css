@@ -1,0 +1,12 @@
+form [aria-role='Search'] {
+  display: block;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 100;
+  border: black;
+  box-shadow: 0px 0px 20px gray;
+  padding: 20px;
+  width: 100%;
+  margin: 0;
+}

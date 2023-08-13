@@ -1,5 +1,7 @@
 console.log("Adding info");
 
+let OPENAI_API_KEY = "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";
+
 function getArticles() {
   const articles = [...document.querySelectorAll("li.arxiv-result")].map(
     (article) => {
@@ -133,48 +135,68 @@ async function summarizeArticle(title, abstract, userSearchKeyWords) {
 
 async function main() {
   const articles = getArticles();
+  const articleList = document.querySelector("ol.breathe-horizontal");
   const userSearchKeyWords = getUserSearchKeywords();
   console.log("All articles", articles);
-  const firstArticle = articles[0];
-  try {
-    const firstSummary = await summarizeArticle(
-      firstArticle.title,
-      firstArticle.abstract,
-      userSearchKeyWords
-    );
-    console.log("Summary:", firstSummary);
+  for (let i = 0; i < 2; i++) {
+    const firstArticle = articles[i];
+    try {
+      const firstSummary = await summarizeArticle(
+        firstArticle.title,
+        firstArticle.abstract,
+        userSearchKeyWords
+      );
+      // console.log('Summary:', firstSummary);
 
-    const newSummary = document.createElement("p");
-    newSummary.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Summary</span> ${firstSummary.summary}`;
-    newSummary.className = "authors";
-    firstArticle.domReference.appendChild(newSummary);
+      // const newSummary = document.createElement('p');
+      // newSummary.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Summary</span> ${firstSummary.summary}`;
+      // newSummary.className = 'authors';
+      // firstArticle.domReference.appendChild(newSummary);
 
-    const newKeywords = document.createElement("div");
-    // newKeywords.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Suggested Keywords:</span> ${firstSummary.keywords.join(
-    //   ", "
-    // )}`;
-    // newKeywords.className = "authors";
-    // firstArticle.domReference.appendChild(newKeywords);
-    newKeywords.className = "keywords-container";
-    firstSummary.keywords.forEach((keyword) => {
-      const newKeyword = document.createElement("button");
-      newKeyword.textContent = keyword;
-      newKeyword.className = "suggest-keyword-button";
-      newKeyword.addEventListener("click", () => {
-        chrome.runtime.sendMessage({ selected_keyword: keyword });
+      const newKeywords = document.createElement("li");
+      // newKeywords.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Suggested Keywords:</span> ${firstSummary.keywords.join(
+      //   ", "
+      // )}`;
+      // newKeywords.className = "authors";
+      // firstArticle.domReference.appendChild(newKeywords);
+      newKeywords.className = "keywords-container";
+      firstSummary.keywords.forEach((keyword) => {
+        const newKeyword = document.createElement("button");
+        newKeyword.textContent = keyword;
+        newKeyword.className =
+          "rounded-sm bg-zinc-100 hover:bg-zinc-200 px-2 py-1 m-0.5 text-sm border-2 border-black";
+        newKeyword.addEventListener("click", () => {
+          chrome.storage.local.get("selected_keywords").then((result) => {
+            const selectedKeywords = result.selected_keywords || [];
+            console.log("previous selected keywords", selectedKeywords);
+
+            const isDuplicate = selectedKeywords.includes(keyword);
+            if (!isDuplicate)
+              chrome.storage.local.set({
+                selected_keywords: [...selectedKeywords, keyword],
+              });
+          });
+          // chrome.runtime.sendMessage({ selected_keyword: keyword });
+        });
+        newKeywords.appendChild(newKeyword);
       });
-      newKeywords.appendChild(newKeyword);
-    });
-    firstArticle.domReference.appendChild(newKeywords);
+      // firstArticle.domReference.appendChild(newKeywords);
+      if (i === articles.length - 1) {
+        articleList.appendChild(newKeywords);
+      } else {
+        let nextArticle = articleList.children[2 * i + 1];
+        articleList.insertBefore(newKeywords, nextArticle);
+      }
 
-    const newRelativeTopics = document.createElement("p");
-    newRelativeTopics.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Related Topics: </span> ${firstSummary.relatedTopics.join(
-      ", "
-    )}`;
-    newRelativeTopics.className = "authors";
-    firstArticle.domReference.appendChild(newRelativeTopics);
-  } catch (e) {
-    console.log("error", e);
+      // const newRelativeTopics = document.createElement('p');
+      // newRelativeTopics.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Related Topics: </span> ${firstSummary.relatedTopics.join(
+      //   ', '
+      // )}`;
+      // newRelativeTopics.className = 'authors';
+      // firstArticle.domReference.appendChild(newRelativeTopics);
+    } catch (e) {
+      console.log("error", e);
+    }
   }
 }
 
