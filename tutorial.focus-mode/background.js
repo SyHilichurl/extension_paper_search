@@ -45,7 +45,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        files: ["libs/tailwindcss_3.3.3.js", "add-info.js"],
+        files: ["libs/tailwindcss_3.3.3.js", "add-info.js", "hide-history.js"],
         // files: ["hide-history.js"],
       });
 
@@ -64,16 +64,6 @@ chrome.action.onClicked.addListener(async (tab) => {
               searchInput.scrollIntoView({ behavior: "smooth" });
             },
             args: [message.chosen_keyword],
-          });
-        }
-      });
-
-      chrome.runtime.onMessage.addListener((request, sendResponse) => {
-        if (request.action === "clearKeywords") {
-          // Clear the "selected_keywords" data from local storage
-          chrome.storage.local.remove("selected_keywords", () => {
-            console.log("Selected keywords cleared.");
-            sendResponse({ cleared: true });
           });
         }
       });

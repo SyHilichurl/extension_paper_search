@@ -16,18 +16,23 @@ function addListenersToSearchResults() {
 
 // Handle mouse enter event
 function onMouseEnter(event) {
+  // clear storage history
+  // chrome.storage.local.set({ history: [] });
+
   const onClickedTitle = event.target.textContent;
   const listItem = findListItemByTitle(onClickedTitle);
-  if (listItem) {
-    listItem.classList.add("is-active");
-  }
 
+  listItem.classList.add("is-active");
+  const title = listItem.querySelector("p.title.is-5.mathjax").innerText;
+  const url = listItem.querySelector("div.is-marginless p.list-title a").href;
   // Add title to history
   chrome.storage.local.get("history", (result) => {
     const history = result.history || [];
-    const isTitleInHistory = history.some((title) => title === onClickedTitle);
+    const isTitleInHistory = history.some(
+      (history) => history.id === onClickedTitle
+    );
     if (!isTitleInHistory) {
-      history.push(onClickedTitle);
+      history.push({ id: onClickedTitle, title: title, url: url });
       chrome.storage.local.set({ history });
       console.log("history", history);
     }
@@ -50,8 +55,8 @@ function addClassToSearchResultItem() {
     const history = result.history || [];
 
     // Iterate through history
-    for (const title of history) {
-      const listItem = findListItemByTitle(title);
+    for (const his of history) {
+      const listItem = findListItemByTitle(his.id);
       if (listItem) {
         listItem.classList.add("is-active");
       }

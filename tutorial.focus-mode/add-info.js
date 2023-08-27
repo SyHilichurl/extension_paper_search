@@ -169,12 +169,25 @@ async function main() {
           chrome.storage.local.get("selected_keywords").then((result) => {
             const selectedKeywords = result.selected_keywords || [];
             console.log("previous selected keywords", selectedKeywords);
-
-            const isDuplicate = selectedKeywords.includes(keyword);
-            if (!isDuplicate)
-              chrome.storage.local.set({
-                selected_keywords: [...selectedKeywords, keyword],
+            const storedKeywordIndex = selectedKeywords.findIndex(
+              (storedKeyword) => storedKeyword.keyword === keyword
+            );
+            if (storedKeywordIndex !== -1) {
+              selectedKeywords[storedKeywordIndex].count += 1;
+            } else {
+              selectedKeywords.push({
+                keyword: keyword,
+                count: 1,
+                position: {
+                  top: Math.floor(Math.random() * 200 + 635),
+                  left: 0,
+                },
+                type: "leftout",
               });
+            }
+            chrome.storage.local.set({
+              selected_keywords: [...selectedKeywords],
+            });
           });
           // chrome.runtime.sendMessage({ selected_keyword: keyword });
         });
@@ -199,5 +212,19 @@ async function main() {
     }
   }
 }
+
+// get the input from the user
+const searchInput = document.querySelector("input#query");
+// add the input to the storage
+chrome.storage.local.get("searchInput", (result) => {
+  const storedSearchInput = result.searchInput || "";
+  storedSearchInput.push({ text: searchInput.value });
+  console.log("storedSearchInput", storedSearchInput);
+  // remove all duplicates
+  const uniqueStoredSearchInput = storedSearchInput.filter(
+    (item, index, self) => index === self.findIndex((t) => t.text === item.text)
+  );
+  chrome.storage.local.set({ searchInput: uniqueStoredSearchInput });
+});
 
 main();

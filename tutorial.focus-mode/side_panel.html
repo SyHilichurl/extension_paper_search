@@ -8,39 +8,146 @@
       height: 200px;
       background-color: #f0f0f0;
       border: 2px dashed #3490dc;
-      display: flex;
+      display: inline-block;
       align-items: center;
       justify-content: center;
-      margin: 20px auto;
+      margin: 2% auto;
       text-align: center;
     }
-      #drop-area2 {
+    #drop-area2 {
       width: 100%;
       height: 200px;
       background-color: #f0f0f0;
       border: 2px dashed #0ffe23;
-      display: flex;
+      display: inline-block;
       align-items: center;
       justify-content: center;
-      margin: 20px auto;
+      margin: 2% auto;
+      text-align: center;
+    }
+    .tab-button:hover {
+      background-color: #ccc;
+      border-color: #ccc;
+    }
+    #currentInput {
+      width: 100%;
+      height: 50px;
+      margin: 2% auto;
+      text-align: center;
+    }
+    #dialogContainer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+
+    #dialogBox {
+      display: none;
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      width: 80%; 
+      height: 400px;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+    }
+    #closeDialogButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    #openDialogButton {
+      display: block;
+    }
+    #inputField {
+      width: 100%;
+      height: 30%;
+      top:240px;
+      position: relative;
+      padding: 3px;
+      border: #3490dc 2px solid;
+    }
+    #submitButton {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    #aiDialog {
+      width: 95%;
+      height: 55%;
+      top: 30px;
+      position: absolute;
+      padding: 3px;
+      overflow-y: scroll;
+      
+    }
+    #articleHistory {
+      width: 100%;
+      height: 400px;
+      background-color: #f0f0f0;
+      border: 2px dashed #3490dc;
+      display: inline-block;
+      align-items: center;
+      justify-content: center;
+      margin: 2% auto;
+      padding: 2%;
+      text-align: left;
+    }
+    #articleHistory li {
+      list-style-type: disc
+    }
+    #searchedHistory {
+      width: 100%;
+      height: 400px;
+      background-color: #f0f0f0;
+      border: 2px dashed #0ffe23;
+      display: inline-block;
+      align-items: center;
+      justify-content: center;
+      margin: 2% auto;
       text-align: center;
     }
     </style>
   </head>
   <body>
     <div class="m-4">
-      <h1 class="text-zinc-500 text-3xl font-bold mb-2">
-        Keywords Collections
-      </h1>
-      <div id="selected-keyword" class="flex gap-4 flex-row"></div>
-      <div id="drop-area1">
-        Drop here to add a new class
+      <div class="tabs">
+        <button id="tab1" class="tab-button">Keyword</button>
+        <button id="tab2" class="tab-button">History</button>
       </div>
-      <div id="drop-area2">
-        Drop here to add a new class
+      <div id="page1">
+        <h1 class="text-zinc-500 text-3xl font-bold mb-2">
+          Keywords Collections
+        </h1>
+        <div id="currentInput">current </div>
+        <div id="drop-area1">
+          Drop here to add a new class
+        </div>
+        <div id="drop-area2">
+          Drop here to add a new class
+        </div>
+        <div id="selected-keyword" class="flex gap-4 flex-row"></div>
+        <button id="clearKeywordsButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Clear Keywords</button>
+        <button id="addClassButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Create your input text</button>
       </div>
-      <button id="clearKeywordsButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Clear Keywords</button>
-      <button id="addClassButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Create your input text</button>
+      <div id="page2">
+        <div id="articleHistory"><ul id="articleList"></ul></div>
+        <div id="searchedHistory"><ul id="searchedList"></ul></div>
+      </div>
+      <div id="dialogContainer">
+        <button id="openDialogButton">Open Dialog</button>
+      </div>
+        <div id="dialogBox">
+          <div id="aiDialog">Hi, I am here to help you.</div>
+          <textarea id="inputField" placeholder="Enter something"></textarea>
+          <button id="submitButton">Submit</button>
+          <button id="closeDialogButton">Close</button>
+        </div>
+      
     </div>
     <script src="sidepanel.js"></script>
   </body>
