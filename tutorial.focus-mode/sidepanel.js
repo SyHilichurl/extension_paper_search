@@ -242,16 +242,16 @@ function createInput(keywords) {
     synchronizeKeywordPosition(keywordObj);
     if (keywordObj) {
       if (keywordObj.type === 'default') {
-        newInput += `<div><span class="rounded-xl bg-blue-500 px-2 py-1 font-bold text-white">${
+        newInput += `<span class="rounded-xl whitespace-nowrap bg-blue-500 px-2 py-1 font-bold text-white">${
           keywordObj.keyword
         }</span> 
-        ${i !== filteredKeywords.length - 1 ? ' & ' : ''}</div>`;
+        ${i !== filteredKeywords.length - 1 ? ' & ' : ''}`;
         // newInput += keywordObj.keyword;
       } else if (keywordObj.type === 'quoted') {
-        newInput += `<div><span class="rounded-xl bg-green-500 px-2 py-1 font-bold text-white">"${
+        newInput += `<span class="rounded-xl whitespace-nowrap bg-green-500 px-2 py-1 font-bold text-white">"${
           keywordObj.keyword
         }"</span>
-        ${i !== filteredKeywords.length - 1 ? ' & ' : ''}</div>`;
+        ${i !== filteredKeywords.length - 1 ? ' & ' : ''}`;
       }
     }
   });
