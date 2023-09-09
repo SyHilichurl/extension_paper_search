@@ -233,20 +233,25 @@ function addKeywordButton(keywordObj) {
 function createInput(keywords) {
   const inputKeyword = document.getElementById('currentInput');
   let newInput = '';
-  keywords.forEach((keywordObj, i) => {
+  const filteredKeywords = keywords.filter((keywordObj) => {
+    synchronizeKeywordPosition(keywordObj);
+    return keywordObj.type === 'default' || keywordObj.type === 'quoted';
+  });
+
+  filteredKeywords.forEach((keywordObj, i) => {
+    synchronizeKeywordPosition(keywordObj);
     if (keywordObj) {
-      synchronizeKeywordPosition(keywordObj);
       if (keywordObj.type === 'default') {
         newInput += `<div><span class="rounded-xl bg-blue-500 px-2 py-1 font-bold text-white">${
           keywordObj.keyword
         }</span> 
-        ${i !== keywords.length - 1 ? ' & ' : ''}</div>`;
+        ${i !== filteredKeywords.length - 1 ? ' & ' : ''}</div>`;
         // newInput += keywordObj.keyword;
       } else if (keywordObj.type === 'quoted') {
         newInput += `<div><span class="rounded-xl bg-green-500 px-2 py-1 font-bold text-white">"${
           keywordObj.keyword
         }"</span>
-        ${i !== keywords.length - 1 ? ' & ' : ''}</div>`;
+        ${i !== filteredKeywords.length - 1 ? ' & ' : ''}</div>`;
       }
     }
   });
