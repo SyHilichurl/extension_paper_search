@@ -4,150 +4,247 @@
     <script src="./libs/tailwindcss_3.3.3.js"></script>
     <style>
       #drop-area1 {
-      width: 100%;
-      height: 200px;
-      background-color: #f0f0f0;
-      border: 2px dashed #3490dc;
-      display: inline-block;
-      align-items: center;
-      justify-content: center;
-      margin: 2% auto;
-      text-align: center;
-    }
-    #drop-area2 {
-      width: 100%;
-      height: 200px;
-      background-color: #f0f0f0;
-      border: 2px dashed #0ffe23;
-      display: inline-block;
-      align-items: center;
-      justify-content: center;
-      margin: 2% auto;
-      text-align: center;
-    }
-    .tab-button:hover {
-      background-color: #ccc;
-      border-color: #ccc;
-    }
-    #currentInput {
-      width: 100%;
-      height: 50px;
-      margin: 2% auto;
-      text-align: center;
-    }
-    #dialogContainer {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-    }
+        width: 100%;
+        height: 200px;
+        background-color: #f0f0f0;
+        border: 2px dashed #3490dc;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        margin: 2% auto;
+        text-align: center;
+        padding-top: 8px;
+      }
+      #drop-area2 {
+        width: 100%;
+        height: 200px;
+        background-color: #f0f0f0;
+        border: 2px dashed #0ffe23;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        margin: 2% auto;
+        text-align: center;
+        padding-top: 8px;
+      }
+      #drop-area3 {
+        width: 100%;
+        height: 120px;
+        background-color: #f0f0f0;
+        border: 2px dashed #888888;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        margin: 2% auto;
+        text-align: center;
+        padding-top: 8px;
+      }
+      .tab-button {
+        background-color: #fff;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border: 1px solid #ccc;
+      }
+      .tab-button:hover {
+        background-color: #ccc;
+        border: 1px solid #ccc;
+        padding: 0.5rem 1rem;
+      }
+      #currentInput {
+        width: 100%;
+        height: 50px;
+        margin: 2% auto;
+        text-align: center;
+        display: flex;
+        gap: 0.5em;
+      }
+      #dialogContainer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+      }
 
-    #dialogBox {
-      display: none;
-      position: absolute;
-      background-color: white;
-      border: 1px solid #ccc;
-      padding: 10px;
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-      width: 80%; 
-      height: 400px;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-    }
-    #closeDialogButton {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
+      #dialogBox {
+        display: none;
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        height: 400px;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100;
+      }
+      #closeDialogButton {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
 
-    #openDialogButton {
-      display: block;
-    }
-    #inputField {
-      width: 100%;
-      height: 30%;
-      top:240px;
-      position: relative;
-      padding: 3px;
-      border: #3490dc 2px solid;
-    }
-    #submitButton {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-    }
-    #aiDialog {
-      width: 95%;
-      height: 55%;
-      top: 30px;
-      position: absolute;
-      padding: 3px;
-      overflow-y: scroll;
-      
-    }
-    #articleHistory {
-      width: 100%;
-      height: 400px;
-      background-color: #f0f0f0;
-      border: 2px dashed #3490dc;
-      display: inline-block;
-      align-items: center;
-      justify-content: center;
-      margin: 2% auto;
-      padding: 2%;
-      text-align: left;
-    }
-    #articleHistory li {
-      list-style-type: disc
-    }
-    #searchedHistory {
-      width: 100%;
-      height: 400px;
-      background-color: #f0f0f0;
-      border: 2px dashed #0ffe23;
-      display: inline-block;
-      align-items: center;
-      justify-content: center;
-      margin: 2% auto;
-      text-align: center;
-    }
+      #openDialogButton {
+      }
+      #inputField {
+        width: 100%;
+        height: 28%;
+        top: 240px;
+        position: relative;
+        padding: 3px;
+        border: #3490dc 2px solid;
+      }
+      #submitButton {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+      }
+      #aiDialog {
+        width: 95%;
+        height: 55%;
+        top: 30px;
+        position: absolute;
+        padding: 3px;
+        overflow-y: scroll;
+      }
+      #articleHistory {
+        width: 100%;
+        height: 400px;
+        background-color: #f0f0f0;
+        border: 2px dashed #3490dc;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        margin: 2% auto;
+        padding: 2%;
+        text-align: left;
+      }
+      #articleHistory li {
+        list-style-type: disc;
+      }
+      #searchedHistory {
+        width: 100%;
+        height: 400px;
+        background-color: #f0f0f0;
+        border: 2px dashed #0ffe23;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        margin: 2% auto;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
     <div class="m-4">
-      <div class="tabs">
-        <button id="tab1" class="tab-button">Keyword</button>
-        <button id="tab2" class="tab-button">History</button>
+      <div class="tabs mb-4">
+        <button id="tab1" class="tab-button text-white font-bold">
+          Keyword
+        </button>
+        <button id="tab2" class="tab-button text-white font-bold">
+          History
+        </button>
       </div>
       <div id="page1">
-        <h1 class="text-zinc-500 text-3xl font-bold mb-2">
+        <h1 class="text-zinc-900 text-3xl font-bold mb-2">
           Keywords Collections
         </h1>
-        <div id="currentInput">current </div>
+        <div>
+          <h3 class="text-zinc-500 text-xl font-bold mb-2">Current Input</h3>
+          <div id="currentInput">current</div>
+        </div>
         <div id="drop-area1">
-          Drop here to add a new class
+          Drop
+          <span class="rounded-xl bg-blue-500 px-2 py-1 font-bold text-white"
+            >Phrase</span
+          >
+          here
         </div>
         <div id="drop-area2">
-          Drop here to add a new class
+          Drop
+          <span class="rounded-xl bg-green-500 px-2 py-1 font-bold text-white"
+            >Exact Phrase</span
+          >
+          here
+        </div>
+        <div id="drop-area3">
+          <span class="rounded-xl bg-zinc-500 px-2 py-1 font-bold text-white"
+            >Leftout</span
+          >
         </div>
         <div id="selected-keyword" class="flex gap-4 flex-row"></div>
-        <button id="clearKeywordsButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Clear Keywords</button>
-        <button id="addClassButton" class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200">Create your input text</button>
+        <button
+          id="clearKeywordsButton"
+          class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md bg-blue-200"
+        >
+          Clear Keywords
+        </button>
+        <button
+          id="addClassButton"
+          class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md"
+        >
+          Create your input text
+        </button>
       </div>
       <div id="page2">
         <div id="articleHistory"><ul id="articleList"></ul></div>
         <div id="searchedHistory"><ul id="searchedList"></ul></div>
       </div>
       <div id="dialogContainer">
-        <button id="openDialogButton">Open Dialog</button>
+        <button
+          id="openDialogButton"
+          class="rounded-md bg-zinc-100 hover:bg-zinc-200 px-4 py-2 m-1 text-md flex flex-row gap-2"
+        >
+          <div class="my-auto">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+              />
+            </svg>
+          </div>
+          <div class="my-auto">Ask Contextual AI</div>
+        </button>
       </div>
-        <div id="dialogBox">
-          <div id="aiDialog">Hi, I am here to help you.</div>
-          <textarea id="inputField" placeholder="Enter something"></textarea>
-          <button id="submitButton">Submit</button>
-          <button id="closeDialogButton">Close</button>
+      <div id="dialogBox">
+        <div id="aiDialog">
+          Hi, I am here to help you. I already know your
+          <b>collected keywords</b> and <b>search history</b>. You can ask me
+          anything about your <b>research topic</b>.
         </div>
-      
+        <textarea id="inputField" placeholder="Enter something"></textarea>
+        <button
+          id="submitButton"
+          class="rounded-sm bg-blue-500 text-white mt-2 px-2 py-1"
+        >
+          Submit
+        </button>
+        <button id="closeDialogButton">
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
+        </button>
+      </div>
     </div>
     <script src="sidepanel.js"></script>
   </body>

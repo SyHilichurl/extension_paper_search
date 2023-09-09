@@ -1,31 +1,31 @@
-console.log("Adding info");
+console.log('Adding info');
 
-let OPENAI_API_KEY = "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";
+let OPENAI_API_KEY = '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';
 
 function getArticles() {
-  const articles = [...document.querySelectorAll("li.arxiv-result")].map(
+  const articles = [...document.querySelectorAll('li.arxiv-result')].map(
     (article) => {
-      const title = article.querySelector("p.title.is-5.mathjax").innerText;
+      const title = article.querySelector('p.title.is-5.mathjax').innerText;
       const authors = article
-        .querySelector("p.authors")
-        .innerText.replace("\n", " ")
-        .replace("Authors: ", "")
-        .split(", ");
+        .querySelector('p.authors')
+        .innerText.replace('\n', ' ')
+        .replace('Authors: ', '')
+        .split(', ');
 
       const abstract = article
-        .querySelector("span.abstract-full.has-text-grey-dark.mathjax")
-        .innerText.replace("\n", " ")
-        .replace("Abstract: ", "")
-        .replace("△ Less", "")
+        .querySelector('span.abstract-full.has-text-grey-dark.mathjax')
+        .innerText.replace('\n', ' ')
+        .replace('Abstract: ', '')
+        .replace('△ Less', '')
         .trim();
 
       const submittedDateString = article
-        .querySelector("p.is-size-7")
-        .innerText.replace("\n", " ")
-        .replace("Submitted ", "")
-        .replace("originally announced", "")
-        .replace(".", "")
-        .split(";")[0]
+        .querySelector('p.is-size-7')
+        .innerText.replace('\n', ' ')
+        .replace('Submitted ', '')
+        .replace('originally announced', '')
+        .replace('.', '')
+        .split(';')[0]
         .trim();
 
       const submittedDate = dateStringToDataTime(submittedDateString);
@@ -33,17 +33,17 @@ function getArticles() {
       //  23 July, 2021
       function dateStringToDataTime(dateString) {
         const [month, day, year] = dateString
-          .split(" ")
-          .map((item) => item.replace(",", ""));
+          .split(' ')
+          .map((item) => item.replace(',', ''));
         return new Date(`${year}-${month}-${day}`);
       }
 
       const articleLink = article.querySelector(
-        "div.is-marginless p.list-title a"
+        'div.is-marginless p.list-title a'
       ).href;
 
       const pdfLink = article.querySelector(
-        "div.is-marginless p.list-title span a"
+        'div.is-marginless p.list-title span a'
       ).href;
 
       return {
@@ -64,7 +64,7 @@ function getUserSearchKeywords() {
   // const queryString = window.location.search;
   // const urlParams = new URLSearchParams(queryString);
   // const userSearchKeyWords = urlParams.get("query").replace("+", " ");
-  return "";
+  return '';
 }
 
 /*
@@ -97,19 +97,19 @@ async function summarizeArticle(title, abstract, userSearchKeyWords) {
   }
 
   const apiKey = OPENAI_API_KEY;
-  const url = "https://api.openai.com/v1/chat/completions";
+  const url = 'https://api.openai.com/v1/chat/completions';
 
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     Authorization: `Bearer ${apiKey}`,
   };
 
   const data = JSON.stringify({
-    model: "gpt-3.5-turbo",
+    model: 'gpt-3.5-turbo',
     messages: [
-      { role: "system", content: systemContext },
+      { role: 'system', content: systemContext },
       {
-        role: "user",
+        role: 'user',
         content: composeLLMInputData(title, abstract, userSearchKeyWords),
       },
     ],
@@ -118,26 +118,26 @@ async function summarizeArticle(title, abstract, userSearchKeyWords) {
 
   console.log(`Requesting Summary of ${title}.`);
   const response = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: headers,
     body: data,
   });
 
   const result = await response.json();
-  console.log("result", result);
+  console.log('result', result);
   const messageContent = result.choices[0].message.content;
-  console.log("messageContent", result.choices[0].message.content);
-  const processedMessageContent = messageContent.replace(/[\r\n]+/gm, "");
-  console.log("processedMessageContent", processedMessageContent);
+  console.log('messageContent', result.choices[0].message.content);
+  const processedMessageContent = messageContent.replace(/[\r\n]+/gm, '');
+  console.log('processedMessageContent', processedMessageContent);
   const parsedResult = JSON.parse(messageContent);
   return parsedResult;
 }
 
 async function main() {
   const articles = getArticles();
-  const articleList = document.querySelector("ol.breathe-horizontal");
+  const articleList = document.querySelector('ol.breathe-horizontal');
   const userSearchKeyWords = getUserSearchKeywords();
-  console.log("All articles", articles);
+  console.log('All articles', articles);
   for (let i = 0; i < 2; i++) {
     const firstArticle = articles[i];
     try {
@@ -153,22 +153,22 @@ async function main() {
       // newSummary.className = 'authors';
       // firstArticle.domReference.appendChild(newSummary);
 
-      const newKeywords = document.createElement("li");
+      const newKeywords = document.createElement('li');
       // newKeywords.innerHTML = `<span class="has-text-black-bis has-text-weight-semibold">Suggested Keywords:</span> ${firstSummary.keywords.join(
       //   ", "
       // )}`;
       // newKeywords.className = "authors";
       // firstArticle.domReference.appendChild(newKeywords);
-      newKeywords.className = "keywords-container";
+      newKeywords.className = 'keywords-container';
       firstSummary.keywords.forEach((keyword) => {
-        const newKeyword = document.createElement("button");
+        const newKeyword = document.createElement('button');
         newKeyword.textContent = keyword;
         newKeyword.className =
-          "rounded-sm bg-zinc-100 hover:bg-zinc-200 px-2 py-1 m-0.5 text-sm border-2 border-black";
-        newKeyword.addEventListener("click", () => {
-          chrome.storage.local.get("selected_keywords").then((result) => {
+          'rounded-sm bg-zinc-100 hover:bg-zinc-200 px-2 py-1 m-0.5 text-sm border-2 border-black';
+        newKeyword.addEventListener('click', () => {
+          chrome.storage.local.get('selected_keywords').then((result) => {
             const selectedKeywords = result.selected_keywords || [];
-            console.log("previous selected keywords", selectedKeywords);
+            console.log('previous selected keywords', selectedKeywords);
             const storedKeywordIndex = selectedKeywords.findIndex(
               (storedKeyword) => storedKeyword.keyword === keyword
             );
@@ -182,7 +182,7 @@ async function main() {
                   top: Math.floor(Math.random() * 200 + 635),
                   left: 0,
                 },
-                type: "leftout",
+                type: 'leftout',
               });
             }
             chrome.storage.local.set({
@@ -208,18 +208,18 @@ async function main() {
       // newRelativeTopics.className = 'authors';
       // firstArticle.domReference.appendChild(newRelativeTopics);
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   }
 }
 
 // get the input from the user
-const searchInput = document.querySelector("input#query");
+const searchInput = document.querySelector('input#query');
 // add the input to the storage
-chrome.storage.local.get("searchInput", (result) => {
-  const storedSearchInput = result.searchInput || "";
+chrome.storage.local.get('searchInput', (result) => {
+  const storedSearchInput = result.searchInput || '';
   storedSearchInput.push({ text: searchInput.value });
-  console.log("storedSearchInput", storedSearchInput);
+  console.log('storedSearchInput', storedSearchInput);
   // remove all duplicates
   const uniqueStoredSearchInput = storedSearchInput.filter(
     (item, index, self) => index === self.findIndex((t) => t.text === item.text)
