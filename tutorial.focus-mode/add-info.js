@@ -1,6 +1,6 @@
 console.log('Adding info');
 
-let OPENAI_API_KEY = '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';
+let OPENAI_API_KEY = '';
 
 function getArticles() {
   const articles = [...document.querySelectorAll('li.arxiv-result')].map(
